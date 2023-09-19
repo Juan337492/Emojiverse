@@ -8,25 +8,25 @@ import { PageLayout } from "~/components/layout";
 import { PostView } from "~/components/postview";
 
 const CreatePostWizard = () => {
-  const {user} = useUser();
-  
+  const { user } = useUser();
+
   const [input, setInput] = useState("");
 
-  const ctx= api.useContext();
+  const ctx = api.useContext();
 
-  const{mutate , isLoading: isPosting} = api.posts.create.useMutation({
+  const { mutate, isLoading: isPosting } = api.posts.create.useMutation({
     onSuccess: () => {
       setInput("");
-    void  ctx.posts.getAll.invalidate();
+      void ctx.posts.getAll.invalidate();
     },
     onError: (e) => {
-      const errorMessage = e.data?.zodError?.fieldErrors.content;
-      if(errorMessage && errorMessage[0]){
+      const errorMessage = e.data?.zodError?.fieldErrors?.content; // Apply optional chaining here
+      if (errorMessage && errorMessage[0]) {
         toast.error(errorMessage[0]);
       } else {
         toast.error("Failed to post! Please try again later.");
       }
-    }       
+    },
   });
  
   console.log(user);
