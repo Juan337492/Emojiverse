@@ -3,7 +3,6 @@ import { type NextPage } from "next";
 
 import { api } from "~/utils/api";
 
-
 import { LoadingPage, LoadingSpinner } from "~/components/loading";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
@@ -23,13 +22,12 @@ const CreatePostWizard = () => {
       void ctx.posts.getAll.invalidate();
     },
     onError: (e) => {
-      const errorMessage = e.data?.zodError?.fieldErrors?.content;
-
-      if (errorMessage && errorMessage[0]) {
+      const errorMessage = e.data?.zodError?.fieldErrors.content;
+      if (errorMessage?.[0]) {
         toast.error(errorMessage[0]);
       } else {
         toast.error("Failed to post! Please try again later.");
-      }
+      }      
     },
   });
 
@@ -109,8 +107,9 @@ const Home: NextPage = () => {
       <div className="flex border-b border-slate-400 p-4">
         {!isSignedIn && (
           <div className="flex justify-center">
-            <SignInButton />
-          </div>
+          {isSignedIn && <SignInButton />}
+        </div>
+        
         )}
         {isSignedIn && <CreatePostWizard />}
       </div>
@@ -132,7 +131,7 @@ const Home: NextPage = () => {
           </div>
         </a>
         <span>
-          <a href="https://juan337492.github.io/">🐦 Click me to view my projects.</a>
+          <a className="underline" href="https://juan337492.github.io/">🐦 Check out my portfolio.</a>
         </span>
       </div>
     </PageLayout>

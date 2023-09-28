@@ -1,4 +1,4 @@
-import { User } from "@clerk/nextjs/dist/types/api"
+import { User } from "@clerk/nextjs/dist/types/api";
 
 export const filterUserForClient =(user: User) => {
     return {
